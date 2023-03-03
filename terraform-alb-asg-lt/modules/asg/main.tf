@@ -11,27 +11,10 @@ data "aws_route53_zone" "selected" {
 
 data "aws_subnets" "mysubnets" {
   
-  /* vpc_id = data.aws_vpc.myvpc.id */
-  /* filter {
-    name   = "tag:Name"
-    values = ["application-tier"]
-  } */
   tags = {
     Name = "my-vpc-public-*"
   }
 }
-
-/* data "aws_ssm_parameter" "ami" {
-    name = "/aws/service/canonical/ubuntu/server/20.04/stable/current/amd64/hvm/ebs-gp2/ami-id"
-} */
-
-/* resource "aws_key_pair" "this" {
-  key_name = "deployer-key"
-  public_key = "${file("${pathexpand("~")}/.ssh/my_rsa.pub")}"
-
-  tags = merge(
-    var.addl_tags,{})
-} */
 
 
 # Security Group for the ALB
@@ -59,7 +42,6 @@ resource "aws_security_group" "asg" {
 resource "aws_launch_template" "this" {
   instance_type = "t3.medium"
   image_id = "ami-0b029b1931b347543"
-  /* key_name = aws_key_pair.this.key_name */
 
   iam_instance_profile {
     name = var.iam_instance_profile_name
@@ -99,7 +81,7 @@ resource "aws_lb_target_group" "this" {
 
 resource "aws_autoscaling_group" "this" {
   max_size = 5
-  min_size = 2
+  min_size = 1
   health_check_grace_period = 300
   health_check_type = "ELB"
   desired_capacity = 2
@@ -112,13 +94,6 @@ resource "aws_autoscaling_group" "this" {
   }
 
   target_group_arns = [aws_lb_target_group.this.arn]
-
-  /* tag = {
-      var.addl_tags,
-      {
-          Name = "webserver-asg"
-      }
-  } */
   tag {
     key                 = "Name"
     value               = "webserver-asg"
