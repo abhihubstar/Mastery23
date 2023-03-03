@@ -1,4 +1,3 @@
-<style>H1{color:DarkOrange;}</style>
 # Terraform Mastery Demo
 
 ## Creates AWS VPC, Subnets, ALB, ASG, Launch Template, Security Groups, Route53 record Using Terraform
@@ -8,7 +7,7 @@ This repo will use Terraform to setup VPC, subnets, Apache web servers in an ASG
 <br/><br/>
 <img src="./images/Mastery23.png"  width="70%" height="70%">
 <br/><br/>
-<style>H3{color:DarkOrange;}</style>
+
 ---
 ### Prerequisites
 
